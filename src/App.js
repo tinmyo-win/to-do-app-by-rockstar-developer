@@ -2,6 +2,10 @@ import { useState } from "react";
 import NewTask from "./NewTask";
 import TaskList from "./TaskList";
 
+import { Box, AppBar, Toolbar, Typography, Button, Container, Divider } from "@mui/material";
+
+import { pink } from "@mui/material/colors";
+
 const App = () => {
   const [items, setItems] = useState([
     { id: 1, subject: "Egg", done: false },
@@ -10,7 +14,8 @@ const App = () => {
   ]);
 
   const add = (subject) => {
-    const id = items.length + 1;
+    const Maxid = Math.max(...items.map(item => item.id))
+    const id = Maxid + 1;
     setItems([{ id, subject, done: false }, ...items]);
   };
 
@@ -29,11 +34,41 @@ const App = () => {
   };
 
   const clear = () => {
-    setItems(items.filter(item => !item.done));
-  }
+    setItems(items.filter((item) => !item.done));
+  };
 
   return (
-    <div>
+    <Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ bgcolor: pink[500] }}>
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Todo App
+            </Typography>
+            <Button color="inherit" onClick={clear}>
+              Clear
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      <Container maxWidth="sm" sx={{ mt: 4 }}>
+        <NewTask add={add} />
+
+        <TaskList
+          items={items.filter((item) => item.done)}
+          toggle={toggle}
+          deleteItem={deleteItem}
+        />
+
+        <Divider />
+        <TaskList
+          items={items.filter((item) => !item.done)}
+          toggle={toggle}
+          deleteItem={deleteItem}
+        />
+      </Container>
+    </Box>
+    /* <div>
       <h1>Todo App({items.length})
         <button onClick={clear} > Clear </button>
       </h1>
@@ -51,6 +86,8 @@ const App = () => {
         deleteItem={deleteItem}
       />
     </div>
+
+    */
   );
 };
 

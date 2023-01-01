@@ -1,4 +1,10 @@
+
+import { OutlinedInput, IconButton, InputAdornment } from '@mui/material';
+import { Add as AddIcon } from '@mui/icons-material';
+import { pink, green } from "@mui/material/colors";
+
 import { useRef } from "react";
+
 const NewTask = ({add}) => {
   const input = useRef()
   return(
@@ -14,9 +20,18 @@ const NewTask = ({add}) => {
           input.current.focus();
         }}
       >
-        <input type="text" ref={input} />
-        <br />
-        <button>Add</button>
+        <OutlinedInput
+          fullWidth
+          placeholder='Enter task'
+          inputRef={input}
+          endAdornment={
+            <InputAdornment position='end'>
+              <IconButton type='submit'>
+                <AddIcon sx={{ color: green[500]}} />
+              </IconButton>
+            </InputAdornment>
+          }
+        />
       </form>
   )
 }
